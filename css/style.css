@@ -1,0 +1,498 @@
+/* ==========================================================
+   Design tokens (미라셀 사이트 실측 CSS 값 기반)
+   ========================================================== */
+:root {
+  --header-height: 80px;
+  --area-width: 1400px;       /* 본문 컨테이너 */
+  --area-wide-width: 1700px;  /* 푸터 컨테이너 */
+  --area-box-width: 1760px;   /* 헤더 이너 컨테이너 */
+  --area-padding: 30px;
+
+  --color-primary: #dd0031;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-text: #222222;
+  --color-gray: #666666;
+  --color-border: #e5e5e5;
+  --color-surface: #f6f6f6;
+
+  --font-kr: 'Pretendard', "Apple SD Gothic Neo", sans-serif;
+  --font-en: 'Outfit', var(--font-kr);
+
+  --transition: all 0.4s ease-in-out;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 12px; } /* 1rem = 12px : 실제 사이트와 동일 기준 */
+
+body {
+  margin: 0;
+  font-family: var(--font-kr);
+  color: var(--color-text);
+  background: #fff;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+h1, h2, h3, h4, h5, h6 { margin: 0; }
+button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+
+.area {
+  max-width: var(--area-width);
+  margin: 0 auto;
+  padding: 0 var(--area-padding);
+}
+.area-wide {
+  max-width: var(--area-wide-width);
+  margin: 0 auto;
+  padding: 0 var(--area-padding);
+}
+.area-box {
+  max-width: var(--area-box-width);
+  margin: 0 auto;
+  padding: 0 var(--area-padding);
+}
+
+.font-outfit { font-family: var(--font-en); }
+
+/* 섹션 공통 타이틀 */
+.main-tit-box { margin-bottom: 4rem; }
+.main-sub-tit {
+  position: relative;
+  display: inline-block;
+  color: var(--color-primary);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.main-sub-tit::before {
+  content: '';
+  position: absolute;
+  top: 0.4rem;
+  right: -1rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+.main-tit {
+  font-size: 6.5rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.34;
+  color: var(--color-black);
+}
+.main-tit b { color: var(--color-primary); font-weight: 800; }
+.main-sub-txt {
+  margin-top: 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ==========================================================
+   Header
+   ========================================================== */
+#header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 999;
+  transition: var(--transition);
+  background: transparent;
+}
+#header.top-fixed {
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(15px);
+}
+#headerInner {
+  max-width: var(--area-box-width);
+  height: var(--header-height);
+  margin: 0 auto;
+  padding: 0 var(--area-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo a {
+  display: flex;
+  align-items: center;
+  width: 151px;  /* 미라셀 원본 로고 영역과 동일한 사이즈 */
+  height: 39px;
+}
+.logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+#gnb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+#gnb ul { display: inline-block; pointer-events: auto; }
+#gnb li { position: relative; float: left; }
+#gnb li a {
+  display: block;
+  padding: 0 2.3rem;
+  line-height: var(--header-height);
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  transition: var(--transition);
+}
+#gnb li a:hover,
+#gnb li.has-dropdown:hover > a { color: var(--color-primary); }
+
+/* 드롭다운(2뎁스) : hover 시 메뉴 아래 브랜드 컬러 박스로 표시 */
+.gnb-dropdown {
+  position: absolute;
+  top: calc(var(--header-height) - 1rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 140px;
+  background: var(--color-primary);
+  border-radius: 1.4rem;
+  padding: 1.4rem 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: var(--transition);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+#gnb li.has-dropdown:hover .gnb-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.gnb-dropdown li { float: none; }
+.gnb-dropdown a {
+  padding: 0.9rem 2rem;
+  line-height: 1.4;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-align: center;
+  color: #fff;
+  white-space: nowrap;
+}
+.gnb-dropdown a:hover { color: rgba(255,255,255,0.7); }
+
+.header-util-box { display: flex; align-items: center; gap: 19px; }
+.header-lang-list { display: flex; gap: 10px; font-size: 13px; color: #fff; }
+.header-member-btn { font-size: 13px; color: #fff; }
+
+/* ==========================================================
+   Hero (mainVisual)
+   ========================================================== */
+#mainVisual {
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 배경 이미지 2장 크로스페이드 로테이션 */
+.visual-bg { position: absolute; inset: 0; }
+.visual-bg-img {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0;
+}
+.visual-bg-img:nth-child(1) {
+  background-image: url('../img/hero-01.jpg');
+  opacity: 1; /* 이미지 1장뿐이라 우선 고정 노출, 2장 다 모이면 아래 안내대로 교체 */
+}
+.visual-bg-img:nth-child(2) {
+  background: linear-gradient(135deg, #1c1c1c, #383838);
+  display: none; /* 2번째 이미지 준비되면 이 줄 삭제 */
+}
+/* TODO: img/hero-02.jpg 추가되면 —
+   1) 위 :nth-child(2)의 background를 background-image:url('../img/hero-02.jpg')로 교체
+   2) display:none 삭제
+   3) 두 규칙에 각각 opacity:0과 animation:visualFade 12s infinite (delay 0s / 6s)를 다시 지정
+   하면 12초 주기 크로스페이드가 살아납니다. */
+@keyframes visualFade {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  42%  { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.visual-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.visual-txt {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.visual-logo {
+  font-family: var(--font-en);
+  font-size: 9rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+.visual-tagline {
+  margin-top: 1.6rem;
+  font-family: var(--font-en);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.visual-scroll-down {
+  position: absolute;
+  left: 40px;
+  bottom: 48px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  color: #fff;
+  font-size: 1.4rem;
+}
+.visual-scroll-down .dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* ==========================================================
+   About
+   ========================================================== */
+#mainAbout {
+  position: relative;
+  padding: 8rem 0 15rem;
+  background: linear-gradient(180deg, #fafafa, #fff);
+  overflow: hidden;
+}
+.main-about-flow-wrap { overflow: hidden; white-space: nowrap; margin-bottom: 8rem; }
+.marquee {
+  display: inline-flex;
+  gap: 4rem;
+  animation: marquee 18s linear infinite;
+}
+.marquee h4 {
+  font-family: var(--font-en);
+  font-size: 9rem;
+  font-weight: 700;
+  color: var(--color-black);
+  white-space: nowrap;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.main-about-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  margin-top: 6rem;
+}
+.main-about-item {
+  flex: 1 1 220px;
+  padding: 3rem;
+  background: var(--color-surface);
+  border-radius: 1rem;
+}
+.main-about-item dt { font-size: 1.5rem; color: var(--color-gray); margin-bottom: 0.8rem; }
+.main-about-item dd { margin: 0; font-family: var(--font-en); font-size: 3.6rem; font-weight: 700; }
+
+/* ==========================================================
+   Service
+   ========================================================== */
+#mainService { padding-top: 20rem; }
+#mainService .main-tit-box { text-align: center; }
+.main-service-img-box {
+  display: flex;
+  margin-top: 13rem;
+  border-radius: 4rem;
+  overflow: hidden;
+  height: 560px;
+}
+.service-card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  transition: flex 0.5s ease;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem;
+  color: #fff;
+}
+.service-card:hover { flex: 1.6; }
+.service-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.65), rgba(0,0,0,0.1));
+}
+.service-card .txt-box { position: relative; z-index: 1; }
+.service-card .tit { font-family: var(--font-en); font-size: 2.6rem; font-weight: 700; margin-bottom: 0.8rem; }
+.service-card .txt { font-size: 1.5rem; opacity: 0.85; }
+.service-card.c1 { background-color: #1c2b3a; }
+.service-card.c2 { background-color: #2a2a2a; }
+.service-card.c3 { background-color: #3a1c26; }
+
+/* ==========================================================
+   Product
+   ========================================================== */
+#mainProduct { padding: 25rem 0 12rem; }
+#mainProduct .main-tit-box { margin-bottom: 10rem; }
+.main-prd-slide-con { overflow-x: auto; padding: 0 var(--area-padding); scrollbar-width: none; }
+.main-prd-slide-con::-webkit-scrollbar { display: none; }
+.main-prd-slide { display: flex; gap: 2.4rem; }
+.main-prd-item {
+  flex: none;
+  width: 260px;
+}
+.main-prd-item .img-box {
+  width: 260px; height: 260px;
+  border-radius: 1rem;
+  background: var(--color-surface);
+  margin-bottom: 1.6rem;
+}
+.main-prd-item .tit { font-size: 1.7rem; font-weight: 600; }
+
+/* ==========================================================
+   News
+   ========================================================== */
+#mainNews { padding: 25rem 0 15rem; }
+.main-news-con { display: flex; gap: 6rem; }
+.main-news-con .left-con { flex: 0 0 380px; }
+.main-news-con .right-con { flex: 1; }
+.main-view-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  margin-top: 2rem; font-size: 1.4rem; font-weight: 600;
+}
+.main-news-list li {
+  padding: 2.2rem 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.main-news-list .tit { font-size: 1.6rem; font-weight: 500; }
+.main-news-list .date { color: var(--color-gray); font-size: 1.4rem; flex: none; }
+
+/* ==========================================================
+   Contact
+   ========================================================== */
+#mainContact {
+  padding: 15rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, #12181f, #23303d);
+  color: #fff;
+}
+#mainContact .main-tit { color: #fff; font-size: 5rem; }
+.main-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 4rem;
+  transition: var(--transition);
+}
+.main-contact-btn:hover { transform: scale(1.05); }
+
+/* ==========================================================
+   Footer
+   ========================================================== */
+#footer { background: #fff; border-top: 1px solid var(--color-border); }
+.footer-top-inner {
+  display: flex;
+  padding: 6rem 0 4rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  gap: 4rem;
+}
+.footer-top-left { flex: 1; display: flex; gap: 4rem; flex-wrap: wrap; }
+.foot-logo { font-family: var(--font-en); font-weight: 800; font-size: 22px; }
+.footer-address strong { display: block; font-family: var(--font-en); margin-bottom: 1.6rem; }
+.footer-address-txt-group { display: flex; flex-wrap: wrap; gap: 2rem; }
+.footer-address-txt { width: 35%; min-width: 220px; font-size: 1.3rem; color: var(--color-gray); line-height: 1.7; }
+.footer-address-txt h5 { color: var(--color-black); font-size: 1.4rem; margin-bottom: 0.6rem; }
+
+.footer-top-right { flex: 0 0 264px; }
+.footer-sitemap-list ul { display: flex; flex-direction: column; gap: 1rem; }
+.footer-sitemap-list a { font-size: 1.4rem; font-weight: 500; }
+.family-site-box { margin-top: 2rem; position: relative; }
+.family-site-open-btn { font-size: 1.3rem; color: var(--color-gray); display: flex; align-items: center; gap: 0.6rem; }
+.family-site-list { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.family-site-list a { font-size: 1.3rem; color: var(--color-gray); }
+
+#footerBottom { padding: 4rem 0 5rem; }
+.footer-bottom-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.6rem; }
+.foot-sns-menu ul { display: flex; gap: 1.2rem; }
+.foot-sns-menu a {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.footer-right-con { display: flex; align-items: center; gap: 2rem; font-size: 1.2rem; color: var(--color-gray); }
+.copyright { font-size: 1.2rem; color: #aaa; }
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media all and (max-width: 1280px) {
+  .main-tit { font-size: 5rem; }
+  .marquee h4 { font-size: 6rem; }
+  #mainService, #mainProduct, #mainNews { padding-top: 14rem; }
+}
+
+@media all and (max-width: 800px) {
+  #gnb { display: none; }
+  .main-tit { font-size: 3.6rem; }
+  .marquee h4 { font-size: 4rem; }
+  .main-service-img-box { flex-direction: column; height: auto; }
+  .service-card { padding: 3rem; min-height: 220px; }
+  .service-card:hover { flex: 1; }
+  .main-news-con { flex-direction: column; gap: 2rem; }
+  .main-news-con .left-con { flex: none; }
+  .footer-top-inner { flex-direction: column; }
+  .footer-top-right { flex: none; }
+  .footer-address-txt { width: 100%; }
+}
+
+@media all and (max-width: 480px) {
+  html { font-size: 10px; }
+  #mainVisual { height: 70vh; }
+  .visual-img-list-container { width: 220px; }
+  .visual-img-roller li { width: 220px; height: 160px; }
+  .main-contact-btn { width: 140px; height: 140px; }
+}
